@@ -25,7 +25,6 @@ def form_validator(request, form_type):
     'user': create_user_form(request.POST),
     'item': create_item_form(request.POST)
     }
-
     if request.method == 'POST':
         form = form_type_dict[form_type]
         if form.is_valid():
