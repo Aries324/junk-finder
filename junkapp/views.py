@@ -2,8 +2,9 @@ from django.shortcuts import render, reverse, HttpResponseRedirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 
-
+from view_helper import obj_creator, form_validator
 from junkapp.models import ItemsPost, MyUser
+from junkapp.forms import create_user_form, create_item_form
 
 def index(request):
     posts = ItemsPost.objects.all()
@@ -34,30 +35,12 @@ def logout_view(request):
     return HttpResponseRedirect(reverse('login'))
 
 def create_user_view(request):
-    if request.method == "POST":
-        form = create_user_form(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            MyUser.objects.create(
-                name=data['name'],
-                email=data['email'],
-                phone=data['phone']
-            )
-            return HttpResponseRedirect(reverse('home'))
+    form_validator('user')
     form = create_user_form()
     return render(request, 'forms.html', {'form': form})
 
 @login_required
 def create_item_view(request):
-    if request.method == "POST":
-        form = create_item_form(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            ItemsPost.objects.create(
-                claimed=data['claimed'],
-                description=data['description'],
-                title=data['title'],
-                email=data['email'],
-                address=data['address'],
-                items=data['items']
-            )
+    form_validator('item')
+    form = create_item_form()
+    return render(request, 'forms.html', {'form': form})
