@@ -1,10 +1,61 @@
-from django.shortcuts import render, reverse, HttpResponseRedirect
-from django.contrib.auth import login, logout, authenticate
+from junkapp.forms import LoginForm, SignUpForm
+from django.contrib.auth import login, authenticate, logout
+from django.shortcuts import render, redirect, reverse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-
 from view_helper import obj_creator, form_validator
 from junkapp.models import ItemsPost, MyUser
 from junkapp.forms import create_user_form, create_item_form
+
+# Create your views here.
+def login_view(request):
+    html = "login.html"
+    form = None
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            user = authenticate(
+                username=data["username"], password=data["password"]
+            )
+            if user:
+                login(request, user)
+                return HttpResponseRedirect(
+                    request.GET.get('next', reverse('home'))
+                )
+    else:
+        form = LoginForm()
+    return render(request, html, {"form": form})
+
+
+def signup(request):
+    form = SignUpForm()
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            new_user = MyUser.objects.create_user(
+                name=data["name"],
+                username=data["username"],
+                email=data["email"],
+                phone=data["phone"],
+                password=data['password'])
+            new_user.set_password(raw_password=data['password'])
+            new_user.save()
+            return redirect('/')
+    else:
+        form = SignUpForm()
+    return render(request, 'signup.html', {'form': form})
+
+
+@login_required(login_url='/login/')
+def home(request):
+    return render(request, 'home.html')
+
+
+def logout_action(request):
+    logout(request)
+    return redirect(request.GET.get("next", reverse('login')))
+
 
 def index(request):
     posts = ItemsPost.objects.all()
@@ -26,13 +77,9 @@ def category_view(request, category):
     posts = ItemsPost.objects.filter(items=category)
     return render(request, 'category.html', {'posts': posts})
 
-def login_view(request):
-    form = login_form()
-    return render(request, 'forms.html', {'form': form})
-
-def logout_view(request):
-    logout(request)
-    return HttpResponseRedirect(reverse('login'))
+#def login_view(request):
+ #   form = login_form()
+   # return render(request, 'forms.html', {'form': form})
 
 def create_user_view(request):
     form_validator('user')
