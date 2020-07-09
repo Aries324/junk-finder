@@ -61,9 +61,11 @@ def index(request):
     posts = ItemsPost.objects.all()
     return render(request, 'index.html', {'posts': posts})
 
+
 def item_detail_view(request, id):
     post = ItemsPost.objects.get(id=id)
     return render(request, 'item_detail.html', {'post': post})
+
 
 def items_by_date_view(request):
     posts = ItemsPost.objects.order_by('-date_and_time')
