@@ -23,4 +23,5 @@ urlpatterns = [
     path('signup/', views.signup),
     path('logout/', views.logout_action, name='logout'),
     path("login/", views.login_view, name="login"),
+    path('postitem/', views.PostItemView.as_view(), name='postitem')
 ]

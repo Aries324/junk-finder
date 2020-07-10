@@ -2,9 +2,11 @@ from junkapp.forms import LoginForm, SignUpForm
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect, reverse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.views.generic.detail import View
+
 from view_helper import obj_creator, form_validator
 from junkapp.models import ItemsPost, MyUser
-from junkapp.forms import create_user_form, create_item_form
+from junkapp.forms import create_user_form, PostItemForm
 
 # Create your views here.
 def login_view(request):
@@ -88,8 +90,22 @@ def create_user_view(request):
     form = create_user_form()
     return render(request, 'forms.html', {'form': form})
 
-@login_required
-def create_item_view(request):
-    form_validator('item')
-    form = create_item_form()
-    return render(request, 'forms.html', {'form': form})
+# @login_required
+# def create_item_view(request):
+#     form_validator('item')
+#     form = create_item_form()
+#     return render(request, 'forms.html', {'form': form})
+
+
+class PostItemView(View):
+
+    def post(self, request, *args, **kwargs):
+        form = PostItemForm(request.POST)
+        item = form.save(commit=False)
+        item.save()
+        form.save()
+        return HttpResponseRedirect(reverse('homepage'))
+
+    def get(self, request, *args, **kwargs):
+        form = PostItemForm()
+        return render(request, 'post_item_form.html', {'form': form})
