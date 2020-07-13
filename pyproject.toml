@@ -9,7 +9,6 @@ python = "^3.8"
 django = "^3.0.8"
 django-phone-field = "^1.8.1"
 
-
 [tool.poetry.dev-dependencies]
 
 [build-system]
