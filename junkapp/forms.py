@@ -12,4 +12,7 @@ class SignUpForm(forms.Form):
     email = forms.CharField(max_length=50)
     phone = forms.CharField(max_length=50)
     password = forms.CharField(widget=forms.PasswordInput())
-    
+
+
+class CreateItemForm(forms.Form):
+    pass
