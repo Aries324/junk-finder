@@ -2,7 +2,7 @@ from junkapp.forms import LoginForm, SignUpForm, CreateItemForm
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect, reverse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from view_helper import obj_creator, object_form_validator
+from .view_helper import obj_creator, object_form_validator
 from junkapp.models import ItemsPost, MyUser
 
 # Regarding additional text that might be needed for individual
@@ -10,7 +10,7 @@ from junkapp.models import ItemsPost, MyUser
 # and add them to the render dictionary.
 def login_view(request):
     form = LoginForm()
-    return render(request, 'forms.html', {"form": form})
+    return render(request, 'login.html', {"form": form})
 
 
 def signup(request):
@@ -18,19 +18,22 @@ def signup(request):
     return render(request, 'forms.html', {'form': form})
 
 
-@login_required(login_url='/login/')
+# class ItemPostView(CreateView):
+#     def get(self, request):
+#         context = {
+#             'data': ItemsPost.objects.all()
+#         }
+#         return render(request, 'templates/home.html', context)
+
+#@login_required(login_url='/login/')
 def home(request):
-    return render(request, 'home.html')
+    posts = ItemsPost.objects.all()
+    return render(request, 'home.html', {'data': posts})
 
 
 def logout_action(request):
     logout(request)
     return redirect(request.GET.get("next", reverse('login')))
-
-
-def index(request):
-    posts = ItemsPost.objects.all()
-    return render(request, 'index.html', {'posts': posts})
 
 
 def item_detail_view(request, id):
@@ -49,15 +52,6 @@ def not_claimed_view(request):
 def category_view(request, category):
     posts = ItemsPost.objects.filter(items=category)
     return render(request, 'category.html', {'posts': posts})
-
-#def login_view(request):
- #   form = login_form()
-   # return render(request, 'forms.html', {'form': form})
-
-# def create_user_view(request):
-#     object_form_validator('user')
-#     form = CreateUserForm()
-#     return render(request, 'forms.html', {'form': form})
 
 @login_required
 def create_item_view(request):

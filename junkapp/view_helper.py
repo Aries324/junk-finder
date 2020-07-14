@@ -1,9 +1,9 @@
 from django.shortcuts import reverse, HttpResponseRedirect
-from junkapp.forms import create_user_form, create_item_form
+from junkapp.forms import LoginForm, SignUpForm, CreateItemForm
 from junkapp.models import MyUser, ItemsPost
-from django.contrib.auth import login, authenticate,
+from django.contrib.auth import login, authenticate
 
-def obj_creator(create_type):
+def obj_creator(create_type, data):
     create_dict = {
         'signup': MyUser.objects.create_user(
             name=data["name"],
@@ -25,14 +25,14 @@ def obj_creator(create_type):
 # For forms where an object is created
 def object_form_validator(request, form_type):
     form_type_dict = {
-    'signup': create_user_form(request.POST),
-    'item': create_item_form(request.POST)
+    'signup': SignUpForm(request.POST),
+    'item': CreateItemForm(request.POST)
     }
     if request.method == 'POST':
         form = form_type_dict[form_type]
         if form.is_valid():
             data = form.cleaned_data
-            new_obj = obj_creator(form_type)
+            new_obj = obj_creator(form_type, data)
             if form_type == 'signup':
                 new_obj.set_password(raw_password=data['password'])
             new_obj.save()
