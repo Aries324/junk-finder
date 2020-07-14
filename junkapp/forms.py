@@ -2,6 +2,7 @@ from django import forms
 
 from junkapp.models import ItemsPost
 
+
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=50)
     password = forms.CharField(widget=forms.PasswordInput())
@@ -25,3 +26,7 @@ class PostItemForm(forms.ModelForm):
             'claimed',
             'email',
         ]
+
+
+class CreateItemForm(forms.Form):
+    pass

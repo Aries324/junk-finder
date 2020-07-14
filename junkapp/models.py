@@ -3,7 +3,6 @@ from phone_field import PhoneField
 from django.contrib.auth.models import AbstractUser
 
 
-
 # Create your models here.
 class MyUser(AbstractUser):
     email = models.EmailField(max_length=200)

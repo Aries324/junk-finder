@@ -1,14 +1,16 @@
 from django.shortcuts import reverse, HttpResponseRedirect
-from junkapp.forms import create_user_form, create_item_form
+from junkapp.forms import LoginForm, SignUpForm, CreateItemForm
 from junkapp.models import MyUser, ItemsPost
+from django.contrib.auth import login, authenticate
 
-def obj_creator(create_type):
+def obj_creator(create_type, data):
     create_dict = {
-        'user': MyUser.objects.create(
-            name=data['name'],
-            email=data['email'],
-            phone=data['phone']
-            ),
+        'signup': MyUser.objects.create_user(
+            name=data["name"],
+            username=data["username"],
+            email=data["email"],
+            phone=data["phone"],
+            password=data['password']),
         'item': ItemsPost.objects.create(
             claimed=data['claimed'],
             description=data['description'],
@@ -20,14 +22,42 @@ def obj_creator(create_type):
     }
     return create_dict[create_type]
 
-def form_validator(request, form_type):
+# For forms where an object is created
+def object_form_validator(request, form_type):
     form_type_dict = {
-    'user': create_user_form(request.POST),
-    'item': create_item_form(request.POST)
+    'signup': SignUpForm(request.POST),
+    'item': CreateItemForm(request.POST)
     }
     if request.method == 'POST':
         form = form_type_dict[form_type]
         if form.is_valid():
             data = form.cleaned_data
-            obj_creator(form_type)
+            new_obj = obj_creator(form_type, data)
+            if form_type == 'signup':
+                new_obj.set_password(raw_password=data['password'])
+            new_obj.save()
             return HttpResponseRedirect(reverse('home'))
+
+def login_validator(request):
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            user = authenticate(
+                username=data["username"],
+                password=data["password"]
+            )
+            if user:
+                login(request, user)
+                return HttpResponseRedirect(
+                    request.GET.get('next', reverse('home'))
+                )
+
+# Handling standard form post request
+def form_redirect(request, form_type):
+    form_dict = {
+        'login': login_validator(request),
+        'signup': object_form_validator(request, form_type),
+        'item': object_form_validator(request, form_type)
+    }
+    return form_dict[form_type]

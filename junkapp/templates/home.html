@@ -4,11 +4,60 @@
 <head>
     <meta charset="UTF-8">
     <title>Junk App</title>
+    <style>
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+            }
+    
+            td,
+            th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+            }
+    
+            tr:nth-child(even) {
+                background-color: #dddddd;
+            }
+        </style>
 </head>
 
 <body>
     <h1>Welcome {{request.user.username}}</h1>
     
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Items</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th>Claimed</th>
+                <th>Contact</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr>
+                <td>{{item.title}}</td>
+                <td>{{item.items}}</td>
+                <td>{{item.description}}</td>
+                <td><a href="{{item.address}}"> {{item.address}}</a></td>
+                <td>{{item.claimed}}</td>
+                <td>{{item.email}}</td>
+                <td>
+                    <button>
+                    <a href='/{{item.id}}/details/'>Detail</a>
+                </button>
+            </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     <br>
     <a href="/logout/"><button>Logout</button></a>
 </body>

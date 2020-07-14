@@ -99,9 +99,7 @@ django-phone-field = [
     {file = "django-phone-field-1.8.1.tar.gz", hash = "sha256:db63af60fc3a3c66b9faa7e72bb7972cd1518299f2e93d68dd95d8df6214f7ed"},
     {file = "django_phone_field-1.8.1-py3-none-any.whl", hash = "sha256:407e74b65e8f7dd14d0a0aa89e277516d57ad6a09ce992cdd94e15b1624b9961"},
 ]
-django-secrets = [
-    {file = "django_secrets-1.0.2-py2.py3-none-any.whl", hash = "sha256:33fc09493654744171b6d8e7fff211d8d4df0036d0a3670921648fcfb8c0225c"},
-]
+
 future = [
     {file = "future-0.18.2.tar.gz", hash = "sha256:b1bead90b70cf6ec3f0710ae53a525360fa360d306a86583adc6bf83a4db537d"},
 ]
