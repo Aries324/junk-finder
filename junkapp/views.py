@@ -10,7 +10,7 @@ from junkapp.models import ItemsPost, MyUser
 # and add them to the render dictionary.
 def login_view(request):
     form = LoginForm()
-    return render(request, 'login.html', {"form": form})
+    return render(request, 'forms.html', {"form": form})
 
 
 def signup(request):
@@ -25,7 +25,7 @@ def signup(request):
 #         }
 #         return render(request, 'templates/home.html', context)
 
-#@login_required(login_url='/login/')
+@login_required(login_url='/login/')
 def home(request):
     posts = ItemsPost.objects.all()
     return render(request, 'home.html', {'data': posts})
