@@ -19,7 +19,8 @@ from junkapp import views, view_helper
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
+    # path('', views.home, name='home'),
+    path('', views.HomeView.as_view(), name='home'),
     path('signup/', views.signup),
     path('logout/', views.logout_action, name='logout'),
     path("login/", views.login_view, name="login"),

@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect, reverse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from .view_helper import obj_creator, object_form_validator
 from junkapp.models import ItemsPost, MyUser
+from django.views.generic.edit import CreateView
 
 # Regarding additional text that might be needed for individual
 # form views, it would be necessary to define them in the view
@@ -17,13 +18,13 @@ def signup(request):
     form = SignUpForm()
     return render(request, 'forms.html', {'form': form})
 
-
-# class ItemPostView(CreateView):
-#     def get(self, request):
-#         context = {
-#             'data': ItemsPost.objects.all()
-#         }
-#         return render(request, 'templates/home.html', context)
+# Class based view
+class HomeView(CreateView):
+    def get(self, request):
+        context = {
+            'data': ItemsPost.objects.all()
+        }
+        return render(request, 'home.html', context)
 
 @login_required(login_url='/login/')
 def home(request):
