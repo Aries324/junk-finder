@@ -1,18 +1,46 @@
-from django.shortcuts import render, reverse, HttpResponseRedirect
-from django.contrib.auth import login, logout, authenticate
+from junkapp.forms import LoginForm, SignUpForm, CreateItemForm
+from django.contrib.auth import login, authenticate, logout
+from django.shortcuts import render, redirect, reverse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-
-from view_helper import obj_creator, form_validator
+from .view_helper import obj_creator, object_form_validator
 from junkapp.models import ItemsPost, MyUser
-from junkapp.forms import create_user_form, create_item_form
+from django.views.generic.edit import CreateView
 
-def index(request):
+# Regarding additional text that might be needed for individual
+# form views, it would be necessary to define them in the view
+# and add them to the render dictionary.
+def login_view(request):
+    form = LoginForm()
+    return render(request, 'forms.html', {"form": form})
+
+
+def signup(request):
+    form = SignUpForm()
+    return render(request, 'forms.html', {'form': form})
+
+# Class based view
+class HomeView(CreateView):
+    def get(self, request):
+        context = {
+            'data': ItemsPost.objects.all()
+        }
+        return render(request, 'home.html', context)
+
+@login_required(login_url='/login/')
+def home(request):
     posts = ItemsPost.objects.all()
-    return render(request, 'index.html', {'posts': posts})
+    return render(request, 'home.html', {'data': posts})
+
+
+def logout_action(request):
+    logout(request)
+    return redirect(request.GET.get("next", reverse('login')))
+
 
 def item_detail_view(request, id):
     post = ItemsPost.objects.get(id=id)
     return render(request, 'item_detail.html', {'post': post})
+
 
 def items_by_date_view(request):
     posts = ItemsPost.objects.order_by('-date_and_time')
@@ -26,21 +54,7 @@ def category_view(request, category):
     posts = ItemsPost.objects.filter(items=category)
     return render(request, 'category.html', {'posts': posts})
 
-def login_view(request):
-    form = login_form()
-    return render(request, 'forms.html', {'form': form})
-
-def logout_view(request):
-    logout(request)
-    return HttpResponseRedirect(reverse('login'))
-
-def create_user_view(request):
-    form_validator('user')
-    form = create_user_form()
-    return render(request, 'forms.html', {'form': form})
-
 @login_required
 def create_item_view(request):
-    form_validator('item')
-    form = create_item_form()
+    form = CreateItemForm()
     return render(request, 'forms.html', {'form': form})

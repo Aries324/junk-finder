@@ -3,7 +3,7 @@
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.0/topics/http/urls/
 Examples:
-Function views
+Function views;
     1. Add an import:  from my_app import views
     2. Add a URL to urlpatterns:  path('', views.home, name='home')
 Class-based views
@@ -15,7 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from junkapp import views, view_helper
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # path('', views.home, name='home'),
+    path('', views.HomeView.as_view(), name='home'),
+    path('signup/', views.signup),
+    path('logout/', views.logout_action, name='logout'),
+    path("login/", views.login_view, name="login"),
+    path('<int:id>/details/', views.item_detail_view),
+    # on form submission, takes form_type and passes it to helper
+    # function that takes the type, loads the form data, then redirects
+    # to another page
+    path('<str:form_type>/standard_form/', view_helper.form_redirect),
 ]
