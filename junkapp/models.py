@@ -1,5 +1,5 @@
 from django.db import models
-from phone_field import PhoneField
+
 from django.contrib.auth.models import AbstractUser
 
 
@@ -7,8 +7,7 @@ from django.contrib.auth.models import AbstractUser
 class MyUser(AbstractUser):
     email = models.EmailField(max_length=200)
     name = models.CharField(max_length=200)
-    phone = PhoneField(blank=True, help_text='Contact phone number')
-
+    phone = models.CharField(max_length=13)
 
 class ItemsPost(models.Model):
     FURNITURE = ' F'
