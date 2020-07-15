@@ -2,9 +2,14 @@ from junkapp.forms import LoginForm, SignUpForm, CreateItemForm
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect, reverse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from .view_helper import obj_creator, object_form_validator, login_validator
+
+from django.views.generic.detail import View
+
+from junkapp.view_helper import obj_creator, object_form_validator, login_validator
 from junkapp.models import ItemsPost, MyUser
+from junkapp.forms import SignUpForm, PostItemForm
 from django.views.generic.edit import CreateView
+
 
 # Regarding additional text that might be needed for individual
 # form views, it would be necessary to define them in the view
@@ -62,9 +67,31 @@ def not_claimed_view(request):
     posts = ItemsPost.objects.filter(claimed=False)
     return render(request, 'claimed.html', {'posts': posts, 'category': 'Not Claimed'})
 
+
 def category_view(request, category):
     posts = ItemsPost.objects.filter(items=category)
     return render(request, 'category.html', {'posts': posts, 'category': category})
+
+
+def create_user_view(request):
+    form_validator('user')
+    form = create_user_form()
+    return render(request, 'forms.html', {'form': form})
+
+
+class PostItemView(View):
+
+    def post(self, request, *args, **kwargs):
+        form = PostItemForm(request.POST)
+        item = form.save(commit=False)
+        item.save()
+        form.save()
+        return HttpResponseRedirect(reverse('homepage'))
+
+    def get(self, request, *args, **kwargs):
+        form = PostItemForm()
+        return render(request, 'post_item_form.html', {'form': form})
+
 
 @login_required
 def create_item_view(request):
