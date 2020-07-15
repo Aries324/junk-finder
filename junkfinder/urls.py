@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from junkapp import views, view_helper
+from api.urls import urlpatterns as api_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,3 +31,5 @@ urlpatterns = [
     # to another page
     path('<str:form_type>/standard_form/', view_helper.form_redirect),
 ]
+
+urlpatterns += api_urls
