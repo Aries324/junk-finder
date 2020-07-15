@@ -16,13 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from junkapp import views, view_helper
-from api.urls import urlpatterns as api_urls
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('', views.home, name='home'),
     path('', views.HomeView.as_view(), name='home'),
     path('signup/', views.signup),
+    path('add_item/', views.create_item_view),
     path('logout/', views.logout_action, name='logout'),
     path("login/", views.login_view, name="login"),
     path('<int:id>/details/', views.item_detail_view),
@@ -32,4 +33,4 @@ urlpatterns = [
     path('<str:form_type>/standard_form/', view_helper.form_redirect),
 ]
 
-urlpatterns += api_urls
+
