@@ -44,15 +44,15 @@ def item_detail_view(request, id):
 
 def items_by_date_view(request):
     posts = ItemsPost.objects.order_by('-date_and_time')
-    return render(request, 'items_by_date.html', {'posts': posts})
+    return render(request, 'items_by_date.html', {'posts': posts, 'category': 'By Date'})
 
 def not_claimed_view(request):
     posts = ItemsPost.objects.filter(claimed=False)
-    return render(request, 'claimed.html', {'posts': posts})
+    return render(request, 'claimed.html', {'posts': posts, 'category': 'Not Claimed'})
 
 def category_view(request, category):
     posts = ItemsPost.objects.filter(items=category)
-    return render(request, 'category.html', {'posts': posts})
+    return render(request, 'category.html', {'posts': posts, 'category': category})
 
 @login_required
 def create_item_view(request):
