@@ -1,4 +1,5 @@
 from django import forms
+from junkapp.models import ItemsPost
 
 
 class LoginForm(forms.Form):
@@ -15,4 +16,16 @@ class SignUpForm(forms.Form):
 
 
 class CreateItemForm(forms.Form):
-    pass
+    ITEM_CHOICES = (
+        ('FURNITURE', 'Furniture'),
+        ('ELECTRONICS', 'Electronics'),
+        ('HOME_IMPROVEMENT', 'Home_Improvement'),
+        ('SCRAPS', 'Scraps'),
+        ('CLOTHING', 'Clothing')
+
+    )
+    claimed = forms.BooleanField()
+    description = forms.CharField(widget=forms.Textarea)
+    title = forms.CharField(max_length=200)
+    address = forms.URLField()
+    items = forms.ChoiceField(choices=ITEM_CHOICES)

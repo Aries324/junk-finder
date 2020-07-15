@@ -1,3 +1,5 @@
+{% extends 'header.html' %}
+{% block content %}
 <form method="POST">
     {% csrf_token %}
     {{form.as_p}}
@@ -10,3 +12,4 @@
 {% if isLoginShown %}
 <a href="/login/"><button>Login</button></a>
 {% endif %}
+{%endblock%}
