@@ -1,4 +1,5 @@
 from django import forms
+from junkapp.models import MyUser
 
 from junkapp.models import ItemsPost
 
@@ -29,4 +30,17 @@ class PostItemForm(forms.ModelForm):
 
 
 class CreateItemForm(forms.Form):
-    pass
+    ITEM_CHOICES = (
+        ('FURNITURE', 'Furniture'),
+        ('ELECTRONICS', 'Electronics'),
+        ('HOME_IMPROVEMENT', 'Home_Improvement'),
+        ('SCRAPS', 'Scraps'),
+        ('CLOTHING', 'Clothing')
+
+    )
+    claimed = forms.BooleanField(required=False)
+    title = forms.CharField(max_length=200)
+    description = forms.CharField(widget=forms.Textarea)
+    email = forms.ModelChoiceField(queryset=MyUser.objects.all())
+    address = forms.URLField()
+    items = forms.ChoiceField(choices=ITEM_CHOICES)

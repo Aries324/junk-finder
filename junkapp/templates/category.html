@@ -1,0 +1,7 @@
+<h1>Category: {{ category }}</h1>
+
+{% for p in posts %}
+    <h3><a href="/{{ p.id }}/details">{{ p.title }}</a></h3>
+    <p>{{ p.description }}</p>
+    <p>Claimed?: {{ p.claimed }}</p>
+{% endfor %}

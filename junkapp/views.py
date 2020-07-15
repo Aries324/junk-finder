@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.views.generic.detail import View
 
-from junkapp.view_helper import obj_creator, object_form_validator
+from junkapp.view_helper import obj_creator, object_form_validator, login_validator
 from junkapp.models import ItemsPost, MyUser
 from junkapp.forms import SignUpForm, PostItemForm
 from django.views.generic.edit import CreateView
@@ -14,14 +14,25 @@ from django.views.generic.edit import CreateView
 # Regarding additional text that might be needed for individual
 # form views, it would be necessary to define them in the view
 # and add them to the render dictionary.
+
+
 def login_view(request):
-    form = LoginForm()
-    return render(request, 'forms.html', {"form": form})
+    if request.method == "POST":
+        return login_validator(request)
+    else:
+        form = LoginForm()
+        return render(request, 'forms.html', {"form": form,
+                                              'isSignupShown': True})
 
 
 def signup(request):
-    form = SignUpForm()
-    return render(request, 'forms.html', {'form': form})
+    if request.method == "POST":
+        return object_form_validator(request, 'signup')
+    else:
+        form = SignUpForm()
+        return render(request, 'forms.html', {'form': form,
+                                              'isLoginShown': True})
+
 
 # Class based view
 class HomeView(CreateView):
@@ -30,6 +41,7 @@ class HomeView(CreateView):
             'data': ItemsPost.objects.all()
         }
         return render(request, 'home.html', context)
+
 
 @login_required(login_url='/login/')
 def home(request):
@@ -49,16 +61,16 @@ def item_detail_view(request, id):
 
 def items_by_date_view(request):
     posts = ItemsPost.objects.order_by('-date_and_time')
-    return render(request, 'items_by_date.html', {'posts': posts})
+    return render(request, 'items_by_date.html', {'posts': posts, 'category': 'By Date'})
 
 def not_claimed_view(request):
     posts = ItemsPost.objects.filter(claimed=False)
-    return render(request, 'claimed.html', {'posts': posts})
+    return render(request, 'claimed.html', {'posts': posts, 'category': 'Not Claimed'})
 
 
 def category_view(request, category):
     posts = ItemsPost.objects.filter(items=category)
-    return render(request, 'category.html', {'posts': posts})
+    return render(request, 'category.html', {'posts': posts, 'category': category})
 
 
 def create_user_view(request):
@@ -83,5 +95,9 @@ class PostItemView(View):
 
 @login_required
 def create_item_view(request):
-    form = CreateItemForm()
-    return render(request, 'forms.html', {'form': form})
+    if request.method == "POST":
+        return object_form_validator(request, 'item')
+    else:
+        form = CreateItemForm()
+        return render(request, 'forms.html', {"form": form})
+

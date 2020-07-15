@@ -3,23 +3,25 @@ from junkapp.forms import LoginForm, SignUpForm, CreateItemForm
 from junkapp.models import MyUser, ItemsPost
 from django.contrib.auth import login, authenticate
 
+
 def obj_creator(create_type, data):
-    create_dict = {
-        'signup': MyUser.objects.create_user(
+    create_dict = {}
+    if create_type == 'signup':
+        create_dict['signup'] = MyUser.objects.create_user(
             name=data["name"],
             username=data["username"],
             email=data["email"],
             phone=data["phone"],
-            password=data['password']),
-        'item': ItemsPost.objects.create(
+            password=data['password'])
+    elif create_type == 'item':
+        create_dict['item'] = ItemsPost.objects.create(
             claimed=data['claimed'],
             description=data['description'],
             title=data['title'],
             email=data['email'],
             address=data['address'],
-            items=data['items']
-        )
-    }
+            items=data['items'])
+
     return create_dict[create_type]
 
 # For forms where an object is created

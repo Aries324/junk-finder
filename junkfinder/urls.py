@@ -17,11 +17,13 @@ from django.contrib import admin
 from django.urls import path
 from junkapp import views, view_helper
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('', views.home, name='home'),
     path('', views.HomeView.as_view(), name='home'),
     path('signup/', views.signup),
+    path('add_item/', views.create_item_view),
     path('logout/', views.logout_action, name='logout'),
     path("login/", views.login_view, name="login"),
     path('postitem/', views.PostItemView.as_view(), name='postitem'),
@@ -31,3 +33,5 @@ urlpatterns = [
     # to another page
     path('<str:form_type>/standard_form/', view_helper.form_redirect),
 ]
+
+
