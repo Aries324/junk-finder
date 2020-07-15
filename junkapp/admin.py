@@ -10,5 +10,17 @@ class CustomUserAdmin(UserAdmin):
     )
 
 admin.site.register(MyUser, CustomUserAdmin)
-admin.site.register(ItemsPost)
+
+class ItemPostAdmin(admin.ModelAdmin):
+    list_display = (
+        'claimed',
+        'description',
+        'title',
+        'email',
+        'address',
+        'items'
+    )
+
+
+admin.site.register(ItemsPost, ItemPostAdmin)
 
