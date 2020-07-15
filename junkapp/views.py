@@ -69,7 +69,7 @@ def category_view(request, category):
 @login_required
 def create_item_view(request):
     if request.method == "POST":
-        return object_form_validator(request)
+        return object_form_validator(request, 'item')
     else:
         form = CreateItemForm()
         return render(request, 'forms.html', {"form": form})
