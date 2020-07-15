@@ -52,7 +52,7 @@ def not_claimed_view(request):
 
 def category_view(request, category):
     posts = ItemsPost.objects.filter(items=category)
-    return render(request, 'category.html', {'posts': posts})
+    return render(request, 'category.html', {'posts': posts, 'category': category})
 
 @login_required
 def create_item_view(request):
