@@ -5,9 +5,9 @@ from django.contrib.auth.decorators import login_required
 
 from django.views.generic.detail import View
 
-from view_helper import obj_creator, object_form_validator
+from junkapp.view_helper import obj_creator, object_form_validator
 from junkapp.models import ItemsPost, MyUser
-from junkapp.forms import create_user_form, PostItemForm
+from junkapp.forms import SignUpForm, PostItemForm
 from django.views.generic.edit import CreateView
 
 
