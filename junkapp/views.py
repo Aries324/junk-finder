@@ -2,21 +2,32 @@ from junkapp.forms import LoginForm, SignUpForm, CreateItemForm
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect, reverse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from .view_helper import obj_creator, object_form_validator
+from .view_helper import obj_creator, object_form_validator, login_validator
 from junkapp.models import ItemsPost, MyUser
 from django.views.generic.edit import CreateView
 
 # Regarding additional text that might be needed for individual
 # form views, it would be necessary to define them in the view
 # and add them to the render dictionary.
+
+
 def login_view(request):
-    form = LoginForm()
-    return render(request, 'forms.html', {"form": form})
+    if request.method == "POST":
+        return login_validator(request)
+    else:
+        form = LoginForm()
+        return render(request, 'forms.html', {"form": form,
+                                              'isSignupShown': True})
 
 
 def signup(request):
-    form = SignUpForm()
-    return render(request, 'forms.html', {'form': form})
+    if request.method == "POST":
+        return object_form_validator(request, 'signup')
+    else:
+        form = SignUpForm()
+        return render(request, 'forms.html', {'form': form,
+                                              'isLoginShown': True})
+
 
 # Class based view
 class HomeView(CreateView):
@@ -25,6 +36,7 @@ class HomeView(CreateView):
             'data': ItemsPost.objects.all()
         }
         return render(request, 'home.html', context)
+
 
 @login_required(login_url='/login/')
 def home(request):
