@@ -79,6 +79,7 @@ def create_user_view(request):
     return render(request, 'forms.html', {'form': form})
 
 
+
 class PostItemView(View):
 
     def post(self, request, *args, **kwargs):
@@ -86,18 +87,17 @@ class PostItemView(View):
         item = form.save(commit=False)
         item.save()
         form.save()
-        return HttpResponseRedirect(reverse('homepage'))
+        return HttpResponseRedirect(reverse('home'))
 
     def get(self, request, *args, **kwargs):
         form = PostItemForm()
         return render(request, 'post_item_form.html', {'form': form})
 
 
-@login_required
-def create_item_view(request):
-    if request.method == "POST":
-        return object_form_validator(request, 'item')
-    else:
-        form = CreateItemForm()
-        return render(request, 'forms.html', {"form": form})
+# def create_item_view(request):
+#     if request.method == "POST":
+#         return object_form_validator(request, 'item')
+#     else:
+#         form = CreateItemForm()
+#         return render(request, 'forms.html', {"form": form})
 
