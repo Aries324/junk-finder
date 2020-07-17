@@ -19,6 +19,7 @@ from junkapp import views, view_helper
 from django.contrib.auth.decorators import login_required
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('', views.home, name='home'),
