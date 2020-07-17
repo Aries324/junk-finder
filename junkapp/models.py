@@ -10,11 +10,11 @@ class MyUser(AbstractUser):
     phone = models.CharField(max_length=13)
 
 class ItemsPost(models.Model):
-    FURNITURE = ' F'
-    ELECTRONICS = 'E'
-    HOME_IMPROVEMENT = 'H'
-    SCRAPS = 'S'
-    CLOTHING = 'C'
+    FURNITURE = ' Furniture'
+    ELECTRONICS = 'Electronics'
+    HOME_IMPROVEMENT = 'Home Improvement'
+    SCRAPS = 'Scraps'
+    CLOTHING = 'Clothing'
 
     ITEM_CHOICES = [
         (FURNITURE, 'Furniture'),

@@ -9,5 +9,5 @@
 <br>
 <h3>Claimed?: {{ post.claimed }}</h3>
 <br>
-<p>Contact: {{ post.email }}</p>
+<p>Contact: <a href="mailto:{{post.email.email}}">Send email</a></p>
 {% endblock %}
