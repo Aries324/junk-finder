@@ -93,11 +93,3 @@ class PostItemView(View):
         form = PostItemForm()
         return render(request, 'post_item_form.html', {'form': form})
 
-
-# def create_item_view(request):
-#     if request.method == "POST":
-#         return object_form_validator(request, 'item')
-#     else:
-#         form = CreateItemForm()
-#         return render(request, 'forms.html', {"form": form})
-
