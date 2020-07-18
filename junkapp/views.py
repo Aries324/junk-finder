@@ -80,7 +80,6 @@ def create_user_view(request):
     return render(request, 'forms.html', {'form': form})
 
 
-
 class PostItemView(View):
 
     def post(self, request, *args, **kwargs):
@@ -94,3 +93,44 @@ class PostItemView(View):
         form = PostItemForm()
         return render(request, 'post_item_form.html', {'form': form})
 
+
+class SortByClaimedFalse(View):
+
+    def get(self, request, *args, **kwargs):
+        data = ItemsPost.objects.filter(claimed=False)
+        return render(request, 'home.html', {'data': data})
+
+
+class SortByFurniture(View):
+
+    def get(self, request, *args, **kwargs):
+        data = ItemsPost.objects.filter(items=ItemsPost.FURNITURE)
+        return render(request, 'home.html', {'data': data})
+
+
+class SortByElectronics(View):
+
+    def get(self, request, *args, **kwargs):
+        data = ItemsPost.objects.filter(items=ItemsPost.ELECTRONICS)
+        return render(request, 'home.html', {'data': data})
+
+
+class SortByHomeImprovement(View):
+
+    def get(self, request, *args, **kwargs):
+        data = ItemsPost.objects.filter(items=ItemsPost.HOME_IMPROVEMENT)
+        return render(request, 'home.html', {'data': data})
+
+
+class SortByScraps(View):
+
+    def get(self, request, *args, **kwargs):
+        data = ItemsPost.objects.filter(items=ItemsPost.SCRAPS)
+        return render(request, 'home.html', {'data': data})
+
+
+class SortByClothing(View):
+
+    def get(self, request, *args, **kwargs):
+        data = ItemsPost.objects.filter(items=ItemsPost.CLOTHING)
+        return render(request, 'home.html', {'data': data})
