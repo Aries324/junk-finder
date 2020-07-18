@@ -19,7 +19,6 @@ from junkapp import views, view_helper
 from django.contrib.auth.decorators import login_required
 
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('', views.home, name='home'),
@@ -34,6 +33,10 @@ urlpatterns = [
     # function that takes the type, loads the form data, then redirects
     # to another page
     path('<str:form_type>/standard_form/', view_helper.form_redirect),
+    path('filterclaimedfalse/', views.SortByClaimedFalse.as_view()),
+    path('filterfurniture/', views.SortByFurniture.as_view()),
+    path('filterelectronics/', views.SortByElectronics.as_view()),
+    path('filterhomeimprovement/', views.SortByHomeImprovement.as_view()),
+    path('filterscraps/', views.SortByScraps.as_view()),
+    path('filterclothing/', views.SortByClothing.as_view()),
 ]
-
-
