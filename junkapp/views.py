@@ -133,3 +133,13 @@ class SortByClothing(View):
     def get(self, request, *args, **kwargs):
         data = ItemsPost.objects.filter(items=ItemsPost.CLOTHING)
         return render(request, 'home.html', {'data': data})
+
+
+def error_404(request, exception):
+    data = {}
+    return render(request, '404.html', data)
+
+
+def error_500(request):
+    data = {}
+    return render(request, '500.html', data)
