@@ -18,6 +18,11 @@ from django.urls import path
 from junkapp import views, view_helper
 from django.contrib.auth.decorators import login_required
 
+handler404 = 'junkapp.views.error_404'
+handler500 = 'junkapp.views.error_500'
+# handler403 = 'junkapp.views.error_403'
+# handler400 = 'junkapp.views.error_400'
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
