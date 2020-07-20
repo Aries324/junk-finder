@@ -105,7 +105,6 @@ def item_edit_view(request, id):
     return render(request, 'forms.html',{'form':form})
 
 
-
 class SortByClaimedFalse(View):
 
     def get(self, request, *args, **kwargs):
