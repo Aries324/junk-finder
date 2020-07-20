@@ -83,7 +83,7 @@ def create_user_view(request):
 class PostItemView(View):
 
     def post(self, request, *args, **kwargs):
-        form = PostItemForm(request.POST)
+        form = PostItemForm(request.POST, request.FILES)
         item = form.save(commit=False)
         item.save()
         form.save()
@@ -91,7 +91,8 @@ class PostItemView(View):
 
     def get(self, request, *args, **kwargs):
         form = PostItemForm()
-        return render(request, 'post_item_form.html', {'form': form})
+        images = ItemsPost.objects.all()
+        return render(request, 'post_item_form.html', {'form': form, 'images': images})
 
 
 class SortByClaimedFalse(View):

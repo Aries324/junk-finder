@@ -30,3 +30,7 @@ class ItemsPost(models.Model):
     email = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     address = models.URLField()
     items = models.CharField(max_length=20, choices=ITEM_CHOICES)
+    image = models.ImageField(upload_to='images/', null=True, blank=True)
+
+    def __str__(self):
+        return self.title

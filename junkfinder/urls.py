@@ -14,34 +14,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from junkapp import views, view_helper
-from django.contrib.auth.decorators import login_required
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
-handler404 = 'junkapp.views.error_404'
-handler500 = 'junkapp.views.error_500'
-# handler403 = 'junkapp.views.error_403'
-# handler400 = 'junkapp.views.error_400'
+
+
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', views.home, name='home'),
-    path('', views.HomeView.as_view(), name='home'),
-    path('signup/', views.signup),
-    # path('add_item/', views.create_item_view),
-    path('logout/', views.logout_action, name='logout'),
-    path("login/", views.login_view, name="login"),
-    path('postitem/', login_required(views.PostItemView.as_view())),
-    path('<int:id>/details/', views.item_detail_view),
-    # on form submission, takes form_type and passes it to helper
-    # function that takes the type, loads the form data, then redirects
-    # to another page
-    path('<str:form_type>/standard_form/', view_helper.form_redirect),
-    path('filterclaimedfalse/', views.SortByClaimedFalse.as_view()),
-    path('filterfurniture/', views.SortByFurniture.as_view()),
-    path('filterelectronics/', views.SortByElectronics.as_view()),
-    path('filterhomeimprovement/', views.SortByHomeImprovement.as_view()),
-    path('filterscraps/', views.SortByScraps.as_view()),
-    path('filterclothing/', views.SortByClothing.as_view()),
+    path('', include('junkapp.urls')),
+
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

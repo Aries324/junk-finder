@@ -7,7 +7,7 @@
 <br>
 <p>Location: <a href="{{ post.address }}">{{ post.address }}</a></p>
 <br>
-<h3>Claimed?: {{ post.claimed }}</h3>
+<p><img src="{{post.image.url}}" alt="{{post.title}}" style="width: 300px; " ></td></p><h3>Claimed?: {{ post.claimed }}</h3>
 <br>
 <p>Contact: <a href="mailto:{{post.email.email}}">Send email</a></p>
 {% endblock %}

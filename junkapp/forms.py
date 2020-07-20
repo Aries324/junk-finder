@@ -27,6 +27,7 @@ class PostItemForm(forms.ModelForm):
             'claimed',
             'address',
             'email',
+            'image'
         ]
 
 

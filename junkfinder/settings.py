@@ -23,15 +23,17 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-# https://djangocentral.com/environment-variables-in-django/
-env = environ.Env()
+# https://django-environ.readthedocs.io/en/latest/
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
 # reading .env file
 environ.Env.read_env()
 
-
 SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -129,7 +131,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+# Base url to serve media files
+MEDIA_URL = '/media/'
+
+
+# Path where media is stored
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 AUTH_USER_MODEL = 'junkapp.MyUser'
 LOGIN_URL ='/login/'
 LOGIN_REDIRECT_URL = '/login/'
 LOGOUT_REDIRECT_URL = '/logout'
+
+
