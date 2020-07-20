@@ -92,7 +92,6 @@ class PostItemView(View):
         images = ItemsPost.objects.all()
         return render(request, 'post_item_form.html', {'form': form, 'images': images})
 
-
 def item_edit_view(request, id):
     item = ItemsPost.objects.get(id=id)
     if request.method == 'POST':
@@ -103,6 +102,7 @@ def item_edit_view(request, id):
         return HttpResponseRedirect(reverse('home'))
     form = PostItemForm(instance=item)
     return render(request, 'forms.html',{'form':form})
+
 
 
 class SortByClaimedFalse(View):
