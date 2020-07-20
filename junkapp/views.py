@@ -2,6 +2,7 @@ from junkapp.forms import LoginForm, SignUpForm, CreateItemForm
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect, reverse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseNotFound
 
 from django.views.generic.detail import View
 
@@ -92,16 +93,17 @@ class PostItemView(View):
         images = ItemsPost.objects.all()
         return render(request, 'post_item_form.html', {'form': form, 'images': images})
 
+
 def item_edit_view(request, id):
     item = ItemsPost.objects.get(id=id)
     if request.method == 'POST':
         form = PostItemForm(request.POST, instance=item)
         form.save()
-        return HttpResponseRedirect(reverse('item_detail',args=(id,)))
+        return HttpResponseRedirect(reverse('item_detail', args=(id,)))
     if request.user.id != item.email.id:
         return HttpResponseRedirect(reverse('home'))
     form = PostItemForm(instance=item)
-    return render(request, 'forms.html',{'form':form})
+    return render(request, 'forms.html', {'form': form})
 
 
 
