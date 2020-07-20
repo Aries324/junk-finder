@@ -3,14 +3,9 @@
 <h1>{{ post.title }}</h1>
 <h2>{{ post.items }}</h2>
 <br><br>
-
 <p>{{ post.description }}</p>
 <br>
 <p>Location: <a href="{{ post.address }}">{{ post.address }}</a></p>
-<br>
-    <button><a href="{% url 'edit' id=post.id %}">Edit Post</a></button>
-
-
 <br>
 <p><img src="{{post.image.url}}" alt="{{post.title}}" style="width: 300px; " ></td></p><h3>Claimed?: {{ post.claimed }}</h3>
 <br>
