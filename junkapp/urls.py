@@ -15,6 +15,7 @@ urlpatterns = [
     path("login/", views.login_view, name="login"),
     path('postitem/', login_required(views.PostItemView.as_view())),
     path('<int:id>/details/', views.item_detail_view),
+    path('<int:id>/edit/', views.item_edit_view, name='edit'),
     # on form submission, takes form_type and passes it to helper
     # function that takes the type, loads the form data, then redirects
     # to another page
