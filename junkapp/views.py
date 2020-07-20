@@ -21,8 +21,7 @@ def login_view(request):
         return login_validator(request)
     else:
         form = LoginForm()
-        return render(request, 'forms.html', {"form": form,
-                                              'isSignupShown': True})
+        return render(request, 'forms.html', {"form": form})
 
 
 def signup(request):
@@ -30,8 +29,7 @@ def signup(request):
         return object_form_validator(request, 'signup')
     else:
         form = SignUpForm()
-        return render(request, 'forms.html', {'form': form,
-                                              'isLoginShown': True})
+        return render(request, 'forms.html', {'form': form})
 
 
 # Class based view

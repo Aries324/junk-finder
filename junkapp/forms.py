@@ -1,6 +1,6 @@
 from django import forms
+from phonenumber_field.formfields import PhoneNumberField
 from junkapp.models import MyUser
-
 from junkapp.models import ItemsPost
 
 
@@ -13,7 +13,10 @@ class SignUpForm(forms.Form):
     username = forms.CharField(max_length=50)
     name = forms.CharField(max_length=50)
     email = forms.CharField(max_length=50)
-    phone = forms.CharField(max_length=50)
+    # phone = forms.CharField(max_length=50)
+    phone = PhoneNumberField(widget=forms.TextInput(
+        attrs={'placeholder': 'Enter valid phone number'}),
+                             label="Phone number", required=False)
     password = forms.CharField(widget=forms.PasswordInput())
 
 
