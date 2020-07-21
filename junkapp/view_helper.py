@@ -1,4 +1,4 @@
-from django.shortcuts import reverse, HttpResponseRedirect
+from django.shortcuts import reverse, HttpResponseRedirect, render
 from junkapp.forms import LoginForm, SignUpForm, CreateItemForm
 from junkapp.models import MyUser, ItemsPost
 from django.contrib.auth import login, authenticate
@@ -7,6 +7,7 @@ from django.contrib.auth import login, authenticate
 def obj_creator(create_type, data):
     create_dict = {}
     if create_type == 'signup':
+        print(data['phone'])
         create_dict['signup'] = MyUser.objects.create_user(
             name=data["name"],
             username=data["username"],
@@ -24,11 +25,12 @@ def obj_creator(create_type, data):
 
     return create_dict[create_type]
 
+
 # For forms where an object is created
 def object_form_validator(request, form_type):
     form_type_dict = {
-    'signup': SignUpForm(request.POST),
-    'item': CreateItemForm(request.POST)
+        'signup': SignUpForm(request.POST),
+        'item': CreateItemForm(request.POST)
     }
     if request.method == 'POST':
         form = form_type_dict[form_type]
@@ -39,6 +41,8 @@ def object_form_validator(request, form_type):
                 new_obj.set_password(raw_password=data['password'])
             new_obj.save()
             return HttpResponseRedirect(reverse('home'))
+        return render(request, 'forms.html', {'form': form})
+
 
 def login_validator(request):
     if request.method == "POST":
@@ -56,6 +60,8 @@ def login_validator(request):
                 )
 
 # Handling standard form post request
+
+
 def form_redirect(request, form_type):
     form_dict = {
         'login': login_validator(request),
