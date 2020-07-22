@@ -1,18 +1,21 @@
 {% extends 'header.html' %}
 {% block content %}
-<h1>{{ post.title }}</h1>
-<h2>{{ post.items }}</h2>
-<br><br>
-<p>{{ post.description }}</p>
-<br>
-<p>Location: <a href="{{ post.address }}">{{ post.address }}</a></p>
-<br>
+<div class="container">
+    <h1>{{ post.title }}</h1>
+    <h2>{{ post.items }}</h2>
+    <br><br>
+    <p>{{ post.description }}</p>
+    <br>
+    <p>Location: <a href="{{ post.address }}">{{ post.address }}</a></p>
+    <br>
 
 
-<button type="submit" class="btn btn-primary"><a href="{% url 'edit' id=post.id %}" style="color: white;">Edit Post</a></button>
-<br><br>
-<br>
-<p><img src="{{post.image.url}}" alt="{{post.title}}" style="width: 300px; " ></td></p><h3>Claimed?: {{ post.claimed }}</h3>
-<br>
-<p>Contact: <a href="mailto:{{post.email.email}}">Send email</a></p>
+    <button type="submit" class="btn btn-primary"><a href="{% url 'edit' id=post.id %}" style="color: white;">Edit Post</a></button>
+    <br><br>
+    <br>
+    <p><img src="{{post.image.url}}" alt="{{post.title}}" style="width: 300px; " ></td></p><h3>Claimed?: {{ post.claimed }}</h3>
+    <br>
+    <p>Contact: <a href="mailto:{{post.email.email}}">Send email</a></p>
+
+</div>
 {% endblock %}

@@ -33,6 +33,7 @@ def signup(request):
         return render(request, 'forms.html', {'form': form})
 
 
+
 # Class based view
 class HomeView(CreateView):
     def get(self, request):
@@ -58,9 +59,9 @@ def item_detail_view(request, id):
     return render(request, 'item_detail.html', {'post': post})
 
 
-def items_by_date_view(request):
-    posts = ItemsPost.objects.order_by('-date_and_time')
-    return render(request, 'items_by_date.html', {'posts': posts, 'category': 'By Date'})
+# def items_by_date_view(request):
+#     posts = ItemsPost.objects.order_by('-date_and_time')
+#     return render(request, 'items_by_date.html', {'posts': posts, 'category': 'By Date'})
 
 
 def not_claimed_view(request):
@@ -72,11 +73,11 @@ def category_view(request, category):
     posts = ItemsPost.objects.filter(items=category)
     return render(request, 'category.html', {'posts': posts, 'category': category})
 
-
-def create_user_view(request):
-    form_validator('user')
-    form = create_user_form()
-    return render(request, 'forms.html', {'form': form})
+#
+# def create_user_view(request):
+#     obj_creator('user')
+#     form = SignUpForm()
+#     return render(request, 'forms.html', {'form': form})
 
 
 class PostItemView(View):
@@ -99,7 +100,7 @@ def item_edit_view(request, id):
     if request.method == 'POST':
         form = PostItemForm(request.POST, instance=item)
         form.save()
-        return HttpResponseRedirect(reverse('item_detail', args=(id,)))
+        return HttpResponseRedirect(reverse('home'))
     if request.user.id != item.email.id:
         return HttpResponseRedirect(reverse('home'))
     form = PostItemForm(instance=item)

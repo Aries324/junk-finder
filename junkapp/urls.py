@@ -9,10 +9,13 @@ handler500 = 'junkapp.views.error_500'
 
 
 urlpatterns = [
-    path('', views.HomeView.as_view(), name='home'),
-    path('signup/', views.signup),
+    path('', views.home, name='home'),
+    # path('', views.HomeView.as_view(), name='home'),
     path('logout/', views.logout_action, name='logout'),
-    path("login/", views.login_view, name="login"),
+    path('login/', views.login_view, name="login"),
+    path('signup/', views.signup),
+    # path('sort_by_date/', views.items_by_date_view, name='sort_by_date'),
+
     path('postitem/', login_required(views.PostItemView.as_view())),
     path('<int:id>/details/', views.item_detail_view, name='item_detail'),
     path('<int:id>/edit/', views.item_edit_view, name='edit'),
