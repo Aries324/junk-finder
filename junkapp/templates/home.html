@@ -45,7 +45,12 @@
                 <td>{{item.items}}</td>
                 <td>{{item.description}}</td>
                 <td><a href="{{item.address}}"> {{item.address}}</a></td>
-                <td>{{item.claimed}}</td>
+
+                {%if item.claimed == True%}
+                <td>Yes</td>
+                {% elif item.claimed == False %}
+                <td>No</td>
+                {% endif %}
                 <td><a href="mailto:{{item.email.email}}">Send email</a></td>
                 <td>
                     <button  class="btn btn-primary" >
