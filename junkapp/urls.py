@@ -1,21 +1,18 @@
 from django.urls import path
 from junkapp import views, view_helper
 from django.contrib.auth.decorators import login_required
+from django.views.defaults import server_error
+from django.views.generic import TemplateView
 
 handler404 = 'junkapp.views.error_404'
 handler500 = 'junkapp.views.error_500'
-# handler403 = 'junkapp.views.error_403'
-# handler400 = 'junkapp.views.error_400'
 
 
 urlpatterns = [
     path('', views.home, name='home'),
-    # path('', views.HomeView.as_view(), name='home'),
     path('logout/', views.logout_action, name='logout'),
     path('login/', views.login_view, name="login"),
     path('signup/', views.signup),
-    # path('sort_by_date/', views.items_by_date_view, name='sort_by_date'),
-
     path('postitem/', login_required(views.PostItemView.as_view())),
     path('<int:id>/details/', views.item_detail_view, name='item_detail'),
     path('<int:id>/edit/', views.item_edit_view, name='edit'),
@@ -29,4 +26,5 @@ urlpatterns = [
     path('filterhomeimprovement/', views.SortByHomeImprovement.as_view()),
     path('filterscraps/', views.SortByScraps.as_view()),
     path('filterclothing/', views.SortByClothing.as_view()),
+    path('test500/', TemplateView.as_view(template_name='500.html')),
 ]
