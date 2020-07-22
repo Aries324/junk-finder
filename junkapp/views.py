@@ -33,8 +33,6 @@ def signup(request):
         return render(request, 'forms.html', {'form': form})
 
 
-
-# Class based view
 class HomeView(CreateView):
     def get(self, request):
         context = {
@@ -59,11 +57,6 @@ def item_detail_view(request, id):
     return render(request, 'item_detail.html', {'post': post})
 
 
-# def items_by_date_view(request):
-#     posts = ItemsPost.objects.order_by('-date_and_time')
-#     return render(request, 'items_by_date.html', {'posts': posts, 'category': 'By Date'})
-
-
 def not_claimed_view(request):
     posts = ItemsPost.objects.filter(claimed=False)
     return render(request, 'claimed.html', {'posts': posts, 'category': 'Not Claimed'})
@@ -72,12 +65,6 @@ def not_claimed_view(request):
 def category_view(request, category):
     posts = ItemsPost.objects.filter(items=category)
     return render(request, 'category.html', {'posts': posts, 'category': category})
-
-#
-# def create_user_view(request):
-#     obj_creator('user')
-#     form = SignUpForm()
-#     return render(request, 'forms.html', {'form': form})
 
 
 class PostItemView(View):
@@ -105,7 +92,6 @@ def item_edit_view(request, id):
         return HttpResponseRedirect(reverse('home'))
     form = PostItemForm(instance=item)
     return render(request, 'forms.html', {'form': form})
-
 
 
 class SortByClaimedFalse(View):
@@ -158,3 +144,7 @@ def error_404(request, exception):
 def error_500(request):
     data = {}
     return render(request, '500.html', data)
+
+
+def test500error(request):
+    return HttpResponse(status=500)
